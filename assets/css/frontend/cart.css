@@ -1,0 +1,85 @@
+.wpc-item-checkbox-wrapper {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.wpc-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.wpc-item-checkbox {
+    margin: 0 8px 0 0 !important;
+    cursor: pointer;
+}
+
+.wpc-checkbox-text {
+    font-size: 14px;
+    color: #515151;
+}
+
+/* Custom checkbox styling */
+.wpc-item-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+    outline: none;
+    transition: all 0.3s ease;
+    position: relative;
+    background: #fff;
+    padding: 0 !important;
+}
+
+.wpc-item-checkbox:checked {
+    background: #2271b1;
+    border-color: #2271b1;
+}
+
+.wpc-item-checkbox:checked::before {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wpc-item-checkbox:hover {
+    border-color: #2271b1;
+}
+
+/* Fix for product name alignment */
+.woocommerce-cart-form__cart-item td.product-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wpc-unselected {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+/* Add this to your existing CSS */
+.woocommerce-cart-form__cart-item.unselected {
+    opacity: 0.7;
+    background: #f7f7f7;
+}
+
+/* Update totals table when items are selected */
+.cart_totals table.shop_table {
+    transition: all 0.3s ease;
+}
+
+/* Style for updating state */
+.wpc-updating-cart .cart_totals {
+    opacity: 0.5;
+    pointer-events: none;
+} 
