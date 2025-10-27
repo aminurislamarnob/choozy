@@ -1,6 +1,6 @@
 <?php
 
-namespace WeLabs\WooPartialCheckout;
+namespace WeLabs\Choozy;
 
 class Assets {
 	/**
@@ -34,11 +34,11 @@ class Assets {
 	 * @return void
 	 */
 	public function register_scripts() {
-		$admin_script    = WOO_PARTIAL_CHECKOUT_PLUGIN_ADMIN_ASSET . '/js/script.js';
-		$frontend_script = WOO_PARTIAL_CHECKOUT_PLUGIN_PUBLIC_ASSET . '/js/script.js';
+		$admin_script    = CHOOZY_PLUGIN_ADMIN_ASSET . '/js/script.js';
+		$frontend_script = CHOOZY_PLUGIN_PUBLIC_ASSET . '/js/script.js';
 
-		wp_register_script( 'woo_partial_checkout_admin_script', $admin_script, array(), WOO_PARTIAL_CHECKOUT_PLUGIN_VERSION, true );
-		wp_register_script( 'woo_partial_checkout_script', $frontend_script, array(), WOO_PARTIAL_CHECKOUT_PLUGIN_VERSION, true );
+		wp_register_script( 'choozy_admin_script', $admin_script, array(), CHOOZY_PLUGIN_VERSION, true );
+		wp_register_script( 'choozy_script', $frontend_script, array(), CHOOZY_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -47,11 +47,11 @@ class Assets {
 	 * @return void
 	 */
 	public function register_styles() {
-		$admin_style    = WOO_PARTIAL_CHECKOUT_PLUGIN_ADMIN_ASSET . '/css/style.css';
-		$frontend_style = WOO_PARTIAL_CHECKOUT_PLUGIN_PUBLIC_ASSET . '/css/style.css';
+		$admin_style    = CHOOZY_PLUGIN_ADMIN_ASSET . '/css/style.css';
+		$frontend_style = CHOOZY_PLUGIN_PUBLIC_ASSET . '/css/style.css';
 
-		wp_register_style( 'woo_partial_checkout_admin_style', $admin_style, array(), WOO_PARTIAL_CHECKOUT_PLUGIN_VERSION );
-		wp_register_style( 'woo_partial_checkout_style', $frontend_style, array(), WOO_PARTIAL_CHECKOUT_PLUGIN_VERSION );
+		wp_register_style( 'choozy_admin_style', $admin_style, array(), CHOOZY_PLUGIN_VERSION );
+		wp_register_style( 'choozy_style', $frontend_style, array(), CHOOZY_PLUGIN_VERSION );
 	}
 
 	/**
@@ -60,10 +60,10 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_admin_scripts() {
-		wp_enqueue_script( 'woo_partial_checkout_admin_script' );
+		wp_enqueue_script( 'choozy_admin_script' );
 		wp_localize_script(
-			'woo_partial_checkout_admin_script',
-			'Woo_Partial_Checkout_Admin',
+			'choozy_admin_script',
+			'Choozy_Admin',
 			array()
 		);
 	}
@@ -74,10 +74,10 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_front_scripts() {
-		wp_enqueue_script( 'woo_partial_checkout_script' );
+		wp_enqueue_script( 'choozy_script' );
 		wp_localize_script(
-			'woo_partial_checkout_script',
-			'Woo_Partial_Checkout',
+			'choozy_script',
+			'Choozy',
 			array()
 		);
 	}

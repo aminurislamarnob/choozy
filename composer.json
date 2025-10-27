@@ -1,17 +1,17 @@
 {
-    "name": "welabs/woo-partial-checkout",
+    "name": "welabs/choozy",
     "description": "Easily enhance your WooCommerce cart experience with Selective Checkout for WooCommerce. This plugin allows customers to selectively choose which items in their cart they want to purchase using a simple checkbox interface. Only the checked items will proceed to checkout, while the rest remain in the cart for future purchases.",
     "license": "GPL2",
     "autoload": {
         "psr-4": {
-            "WeLabs\\WooPartialCheckout\\": "includes/"
+            "WeLabs\\Choozy\\": "includes/"
         }
     },
     "authors": [
         {
-            "name": "Aminur Islam Arnob",
+            "name": "Aminur Islam",
             "email": "eng.aminurislam@gmail.com",
-            "homepage": "https://welabs.dev"
+            "homepage": "https://wordpress.org/plugins/choozy/"
         }
     ],
     "minimum-stability": "dev",
@@ -23,7 +23,7 @@
         "phpunit/phpunit": "~8.5",
         "wp-phpunit/wp-phpunit": "^6.1",
         "yoast/phpunit-polyfills": "^1.0",
-        "symfony/var-dumper": "6.4.x-dev"
+        "symfony/var-dumper": "^5.4"
     },
    "scripts": {
         "phpcs": [
