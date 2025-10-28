@@ -1,0 +1,118 @@
+/* Choozy Cart Checkbox Styles */
+
+.choozy-select-all-wrapper {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background-color: #f7f7f7;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+}
+
+.choozy-select-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.choozy-select-all-wrapper label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.choozy-select-all-wrapper input[type="checkbox"] {
+    margin: 0 8px 0 0;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.choozy-selected-count {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+.choozy-info-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e7f5fe;
+    border-left: 3px solid #2196f3;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #0c5a8a;
+}
+
+.choozy-info-message .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #2196f3;
+}
+
+.choozy-cart-item-checkbox {
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+/* Make sure checkbox aligns properly with product name */
+.woocommerce-cart-form__cart-item .product-name {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for disabled/unchecked items */
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked {
+    opacity: 0.5;
+    position: relative;
+}
+
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked .product-thumbnail img {
+    filter: grayscale(70%);
+}
+
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked .product-name a,
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked .product-price,
+.woocommerce table.shop_table tbody tr.cart_item.choozy-unchecked .product-subtotal {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .choozy-select-all-wrapper {
+        padding: 10px;
+    }
+    
+    .choozy-select-all-wrapper label {
+        font-size: 13px;
+    }
+    
+    .choozy-cart-item-checkbox {
+        width: 16px;
+        height: 16px;
+    }
+}
+

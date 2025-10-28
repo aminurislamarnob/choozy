@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Choozy
  * Plugin URI:  https://wordpress.org/plugins/choozy/
- * Description: Easily enhance your WooCommerce cart experience with Selective Checkout for WooCommerce. This plugin allows customers to selectively choose which items in their cart they want to purchase using a simple checkbox interface. Only the checked items will proceed to checkout, while the rest remain in the cart for future purchases.
+ * Description: Selective Checkout for WooCommerce.
  * Version: 0.0.1
  * Author: Aminur Islam
  * Author URI: https://wordpress.org/plugins/choozy/

@@ -176,6 +176,11 @@ final class Choozy {
      */
     public function init_classes() {
         $this->container['scripts'] = new Assets();
+        $this->container['ajax']    = new Ajax();
+        
+        if ( $this->has_woocommerce() ) {
+            $this->container['cart'] = new Cart();
+        }
     }
 
     /**

@@ -37,8 +37,8 @@ class Assets {
 		$admin_script    = CHOOZY_PLUGIN_ADMIN_ASSET . '/js/script.js';
 		$frontend_script = CHOOZY_PLUGIN_PUBLIC_ASSET . '/js/script.js';
 
-		wp_register_script( 'choozy_admin_script', $admin_script, array(), CHOOZY_PLUGIN_VERSION, true );
-		wp_register_script( 'choozy_script', $frontend_script, array(), CHOOZY_PLUGIN_VERSION, true );
+		wp_register_script( 'choozy_admin_script', $admin_script, array( 'jquery' ), CHOOZY_PLUGIN_VERSION, true );
+		wp_register_script( 'choozy_script', $frontend_script, array( 'jquery' ), CHOOZY_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -74,11 +74,19 @@ class Assets {
 	 * @return void
 	 */
 	public function enqueue_front_scripts() {
-		wp_enqueue_script( 'choozy_script' );
-		wp_localize_script(
-			'choozy_script',
-			'Choozy',
-			array()
-		);
+		// Enqueue scripts and styles on cart page
+		if ( is_cart() ) {
+			wp_enqueue_style( 'dashicons' );
+			wp_enqueue_style( 'choozy_style' );
+			wp_enqueue_script( 'choozy_script' );
+			wp_localize_script(
+				'choozy_script',
+				'Choozy',
+				array(
+					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+					'nonce'   => wp_create_nonce( 'choozy_nonce' ),
+				)
+			);
+		}
 	}
 }
