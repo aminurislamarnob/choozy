@@ -36,7 +36,7 @@ class Cart {
 		// Display original prices for unselected items only UI End
 		add_filter( 'woocommerce_cart_item_price', array( $this, 'display_original_price' ), 10, 3 );
 		add_filter( 'woocommerce_cart_item_subtotal', array( $this, 'display_original_subtotal' ), 10, 3 );
-		add_filter( 'woocommerce_cart_product_subtotal', array( $this, 'display_original_subtotal' ), 10, 3 );
+		// add_filter( 'woocommerce_cart_product_subtotal', array( $this, 'display_original_subtotal' ), 10, 3 );
 	}
 
 	/**
@@ -358,6 +358,9 @@ class Cart {
 		// Store original prices in session for display filters
 		if ( ! empty( $original_prices ) ) {
 			WC()->session->set( 'choozy_original_prices', $original_prices );
+		} else {
+			// All items are selected, clear the session to prevent stale data
+			WC()->session->set( 'choozy_original_prices', array() );
 		}
 	}
 
