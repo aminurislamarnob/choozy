@@ -29,6 +29,14 @@ class Cart {
 		
 		// Store unselected items before checkout
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'handle_unselected_items' ), 10, 1 );
+
+		// Consider unselected items price 0 for calculation
+		add_action( 'woocommerce_before_calculate_totals', array( $this, 'exclude_unselected_from_totals' ), 10, 1 );
+
+		// Display original prices for unselected items only UI End
+		add_filter( 'woocommerce_cart_item_price', array( $this, 'display_original_price' ), 10, 3 );
+		add_filter( 'woocommerce_cart_item_subtotal', array( $this, 'display_original_subtotal' ), 10, 3 );
+		add_filter( 'woocommerce_cart_product_subtotal', array( $this, 'display_original_subtotal' ), 10, 3 );
 	}
 
 	/**
@@ -247,8 +255,8 @@ class Cart {
 	 * @return void
 	 */
 	public function restore_unselected_items_on_cart() {
-		// Only run on cart page, not on checkout or admin
-		if ( ! is_cart() || is_checkout() || is_admin() ) {
+		// Only run on all pages except checkout or admin
+		if ( is_checkout() || is_admin() ) {
 			return;
 		}
 
@@ -306,6 +314,118 @@ class Cart {
 
 		// Clear unselected items from session after restoration
 		WC()->session->set( 'choozy_unselected_items', array() );
+	}
+
+	/**
+	 * Exclude unselected items from cart total calculation on cart page
+	 *
+	 * @param object $cart WC_Cart object
+	 *
+	 * @return void
+	 */
+	public function exclude_unselected_from_totals( $cart ) {
+		// Only process on cart page, not checkout or admin
+		if ( ! is_cart() || is_admin() || wp_doing_ajax() ) {
+			return;
+		}
+
+		// Prevent running multiple times per request
+		static $already_processed = false;
+		if ( $already_processed ) {
+			return;
+		}
+		$already_processed = true;
+
+		// Get selected items
+		$selected_items = $this->get_selected_items();
+
+		// Store original prices for display purposes
+		$original_prices = array();
+		
+		// Loop through cart items
+		foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
+			// Check if item is NOT selected
+			if ( ! in_array( $cart_item_key, $selected_items ) ) {
+
+				// Store the original price before setting to 0
+				$original_prices[ $cart_item_key ] = $cart_item['data']->get_price();
+
+				// Set price to 0 for unselected items so they don't affect the total
+				$cart_item['data']->set_price( 0 );
+			}
+		}
+
+		// Store original prices in session for display filters
+		if ( ! empty( $original_prices ) ) {
+			WC()->session->set( 'choozy_original_prices', $original_prices );
+		}
+	}
+
+	/**
+	 * Display original price for unselected items in cart
+	 *
+	 * @param string $price HTML price string
+	 * @param array  $cart_item Cart item data
+	 * @param string $cart_item_key Cart item key
+	 *
+	 * @return string
+	 */
+	public function display_original_price( $price, $cart_item, $cart_item_key ) {
+		if ( ! is_cart() ) {
+			return $price;
+		}
+
+		// Get original prices from session
+		$original_prices = WC()->session->get( 'choozy_original_prices', array() );
+		
+		// Check if this item has an original price stored (meaning it's unselected)
+		if ( isset( $original_prices[ $cart_item_key ] ) ) {
+			$original_price = $original_prices[ $cart_item_key ];
+			$product = $cart_item['data'];
+			
+			// Format the price
+			$price_html = wc_price( $original_price );
+			
+			// Add strikethrough and excluded label
+			return '<del>' . $price_html . '</del> <span class="choozy-excluded-label">' . esc_html__( '(Excluded)', 'choozy' ) . '</span>';
+		}
+		
+		return $price;
+	}
+
+	/**
+	 * Display original subtotal for unselected items in cart
+	 *
+	 * @param string $subtotal HTML subtotal string
+	 * @param array  $cart_item Cart item data
+	 * @param string $cart_item_key Cart item key
+	 *
+	 * @return string
+	 */
+	public function display_original_subtotal( $subtotal, $cart_item, $cart_item_key ) {
+		if ( ! is_cart() ) {
+			return $subtotal;
+		}
+
+		// Get original prices from session
+		$original_prices = WC()->session->get( 'choozy_original_prices', array() );
+		
+		// Check if this item has an original price stored (meaning it's unselected)
+		if ( isset( $original_prices[ $cart_item_key ] ) ) {
+			$original_price = $original_prices[ $cart_item_key ];
+			$quantity = $cart_item['quantity'];
+			
+			// Calculate original subtotal
+			$original_subtotal = $original_price * $quantity;
+			
+			// Format the subtotal
+			$subtotal_html = wc_price( $original_subtotal );
+			
+			// Add strikethrough and excluded label
+			return '<del>' . $subtotal_html . '</del> <span class="choozy-excluded-label">' . esc_html__( '(Excluded)', 'choozy' ) . '</span>';
+		}
+		
+		return $subtotal;
 	}
 }
 
