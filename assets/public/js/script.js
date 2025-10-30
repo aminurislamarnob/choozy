@@ -3,7 +3,7 @@
 
     $(document).ready(function() {
         // Handle select all checkbox
-        $('#choozy-select-all').on('change', function() {
+        $(document).on('change', '#choozy-select-all', function() {
             const isChecked = $(this).is(':checked');
             $('.choozy-cart-item-checkbox').prop('checked', isChecked).trigger('change');
         });
@@ -93,6 +93,17 @@
                                 $row.addClass('choozy-unchecked');
                             }
                         });
+
+                        // Trigger cart update with multiple methods for better compatibility
+                        const $updateButton = $('button[name="update_cart"]');
+                        
+                        if ($updateButton.length) {
+                            // Enable and trigger the Update Cart button
+                            $updateButton.prop('disabled', false).trigger('click');
+                        } else {
+                            // Fallback: Trigger WooCommerce's update event directly
+                            $(document.body).trigger('wc_update_cart');
+                        }
                     }
                 },
                 error: function(xhr, status, error) {

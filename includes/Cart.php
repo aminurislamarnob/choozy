@@ -28,7 +28,7 @@ class Cart {
 		add_action( 'template_redirect', array( $this, 'restore_unselected_items_on_cart' ), 5 );
 		
 		// Store unselected items before checkout
-		add_action( 'woocommerce_before_calculate_totals', array( $this, 'handle_unselected_items' ), 10, 1 );
+		add_action( 'woocommerce_before_calculate_totals', array( $this, 'handle_unselected_items_on_checkout' ), 10, 1 );
 
 		// Consider unselected items price 0 for calculation
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'exclude_unselected_from_totals' ), 10, 1 );
@@ -147,13 +147,13 @@ class Cart {
 	}
 
 	/**
-	 * Handle unselected items before calculating totals
+	 * Handle unselected items before calculating totals on the checkout page
 	 *
 	 * @param object $cart WC_Cart object
 	 *
 	 * @return void
 	 */
-	public function handle_unselected_items( $cart ) {
+	public function handle_unselected_items_on_checkout( $cart ) {
 		// Only process on checkout page, not on cart page or AJAX
 		if ( ! is_checkout() || is_admin() || wp_doing_ajax() ) {
 			return;
